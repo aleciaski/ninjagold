@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ninja Gold</title>
+    <style>
+    	
+    	.red{
+    		color: red;
+    	}
+    	.green{
+    		color: green;
+    	}
+    </style>
+</head>
+
+<body>
+    <h3>Your Gold: {{request.session.total_gold}}  </h3>
+    <div class="place">
+        <h2>Farm</h2>
+        <br>
+        <p>(Earns 10-20 Gold Coins)</p>
+        <form action='/process_money' method='POST'>
+            {% csrf_token %}
+            <input type="hidden" name="location" value="farm">
+            <input type="submit" value="Find Gold!">
+        </form>
+    </div>
+    <div class="place">
+        <h2>Cave</h2>
+        <br>
+        <p>(Earns 5-10 Gold Coins)</p>
+        <form action='/process_money' method='POST'>
+            {% csrf_token %}
+            <input type="hidden" name="location" value="cave">
+            <input type="submit" value="Find Gold!">
+        </form>
+    </div>
+    <div class="place">
+        <h2>House</h2>
+        <br>
+        <p>(Earns 2-5 Gold Coins)</p>
+        <form action='/process_money' method='POST'>
+            {% csrf_token %}
+            <input type="hidden" name="location" value="house">
+            <input type="submit" value="Find Gold!">
+        </form>
+    </div>
+    <div class="place">
+        <h2>Casino</h2>
+        <br>
+        <p>(Lose/Earn 0-50 Gold Coins)</p>
+        <form action="/process_money" method='POST'>
+            {% csrf_token %}
+            <input type="hidden" name="location" value="casino" />
+            <input type="submit" value='Find Gold'>
+        </form>
+    </div>
+    <h2>History</h2>
+    <div style="width:400px;height:150px;line-height:3em;overflow:scroll;padding:5px;background-color:#FCFADD;color:#714D03;border:4px double #DEBB07;">
+    	{% for incident in request.session.activity %}
+        <!-- <p>incident is {{incident}}</p>  -->
+        <p style="color:{{incident.color}}">{{ incident.description}}</p> 
+        {% endfor %}
+        
+    </div>
+    <form action='/reset' method="POST">
+		{%csrf_token%}
+		<input type="submit" name="reset" value="Clear Session">
+    </form>
+</body>
+
+</html>
